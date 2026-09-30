@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Task Manager</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .add-task {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+
+        .task {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        a {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Student Task Manager</h1>
+
+    <form action="/add" method="POST" class="add-task">
+        <input
+            type="text"
+            name="title"
+            placeholder="Enter a task..."
+            required
+        >
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h2>Your Tasks</h2>
+
+    {% for task in tasks %}
+
+        <div class="task">
+
+            <span class="{% if task['completed'] %}completed{% endif %}">
+                {{ task['title'] }}
+            </span>
+
+            <div>
+
+                {% if not task['completed'] %}
+                    <a href="/complete/{{ task['id'] }}">
+                        <button>Complete</button>
+                    </a>
+                {% endif %}
+
+                <a href="/delete/{{ task['id'] }}">
+                    <button>Delete</button>
+                </a>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <p>No tasks yet. Add your first task!</p>
+
+    {% endfor %}
+
+</body>
+</html>
